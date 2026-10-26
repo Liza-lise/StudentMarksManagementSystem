@@ -1,0 +1,140 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+/* Student Marks Management dashboard */
+
+body {
+    background-color: #f5f7fb;
+    color: #263247;
+}
+
+/* Main page heading */
+h1 {
+    color: #23395d;
+    font-size: 2rem;
+    font-weight: 650;
+    margin-bottom: 1.5rem;
+}
+
+h2 {
+    color: #23395d;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Form fields */
+.form-control,
+.form-select {
+    border: 1px solid #dce3ed;
+    border-radius: 8px;
+    padding: 0.65rem 0.75rem;
+    background-color: #ffffff;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #5b9bd5;
+        box-shadow: 0 0 0 0.2rem rgba(91, 155, 213, 0.15);
+    }
+
+/* Assessment table */
+.table {
+    background-color: #ffffff;
+    vertical-align: middle;
+}
+
+    .table th {
+        color: #465875;
+        background-color: #edf3f9;
+        font-size: 0.9rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .table td {
+        padding: 0.75rem;
+    }
+
+/* Buttons */
+.btn {
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #326da8;
+    border-color: #326da8;
+}
+
+    .btn-primary:hover {
+        background-color: #275987;
+        border-color: #275987;
+    }
+
+.btn-secondary {
+    background-color: #e8eef6;
+    color: #314760;
+    border-color: #d7e1ed;
+}
+
+    .btn-secondary:hover {
+        background-color: #dbe5f0;
+        color: #23395d;
+    }
+
+.btn-danger {
+    font-size: 0.85rem;
+}
+
+/* Results and separators */
+hr {
+    border-color: #dce3ed;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Footer */
+footer {
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+/* Small screens */
+@media (max-width: 576px) {
+    h1 {
+        font-size: 1.65rem;
+    }
+
+    h2 {
+        font-size: 1.15rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.5rem;
+    }
+}

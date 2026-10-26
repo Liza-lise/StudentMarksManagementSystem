@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Student Marks Management System";
+}
+
+<div class="container py-5">
+    <div class="text-center py-5">
+        <h1 class="display-4 fw-bold">
+            Student Marks Management System
+        </h1>
+
+        <p class="lead mt-3">
+            Calculate your DP, check your exam eligibility,
+            and find out what marks you need to pass or achieve a distinction.
+        </p>
+
+        <p class="text-muted mt-3">
+            A simple tool to help you understand your academic progress.
+        </p>
+
+        <a asp-controller="Marks"
+           asp-action="Index"
+           class="btn btn-primary btn-lg mt-3">
+            Open Marks Calculator
+        </a>
+    </div>
+
+    <div class="row g-4 mt-3">
+        <div class="col-md-4">
+            <div class="card h-100 p-3">
+                <h2 class="h5">Calculate DP</h2>
+                <p class="mb-0">
+                    Calculate your Developmental Points using your assessment
+                    marks and weightings.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 p-3">
+                <h2 class="h5">Check Exam Targets</h2>
+                <p class="mb-0">
+                    Find the exam mark needed to reach a pass or distinction,
+                    where achievable.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 p-3">
+                <h2 class="h5">Calculate Final Marks</h2>
+                <p class="mb-0">
+                    Combine your DP and exam mark to calculate your final result
+                    for examinable modules.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <p class="text-center text-muted mt-5">
+        Results are calculated using the rules configured in this application.
+        Always confirm your institution's official assessment requirements.
+    </p>
+</div>
