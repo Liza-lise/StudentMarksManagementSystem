@@ -1,6 +1,4 @@
-﻿
-
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using StudentMarksManagementSystem.Models;
