@@ -1,1 +1,68 @@
-﻿
+        white-space: nowrap;
+    }
+
+    .table td {
+        padding: 0.75rem;
+    }
+
+/* Buttons */
+.btn {
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #326da8;
+    border-color: #326da8;
+}
+
+    .btn-primary:hover {
+        background-color: #275987;
+        border-color: #275987;
+    }
+
+.btn-secondary {
+    background-color: #e8eef6;
+    color: #314760;
+    border-color: #d7e1ed;
+}
+
+    .btn-secondary:hover {
+        background-color: #dbe5f0;
+        color: #23395d;
+    }
+
+.btn-danger {
+    font-size: 0.85rem;
+}
+
+/* Results and separators */
+hr {
+    border-color: #dce3ed;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Footer */
+footer {
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+/* Small screens */
+@media (max-width: 576px) {
+    h1 {
+        font-size: 1.65rem;
+    }
+
+    h2 {
+        font-size: 1.15rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.5rem;
+    }
+}
