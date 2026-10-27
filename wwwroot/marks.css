@@ -1,4 +1,14 @@
-        white-space: nowrap;
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+white-space: nowrap;
     }
 
     .table td {
