@@ -1,0 +1,423 @@
+﻿@model StudentMarksManagementSystem.Models.MarksViewModel
+
+@{
+    ViewData["Title"] = "Student Marks Management";
+}
+
+<link rel="stylesheet"
+      href="~/css/marks.css"
+      asp-append-version="true" />
+
+<div class="marks-page container py-4">
+    <header class="marks-header mb-4">
+        <h1>Student Marks Management</h1>
+        <p>Enter your assessment marks and weightings to calculate your results.</p>
+    </header>
+
+    <form asp-controller="Marks"
+          asp-action="Calculate"
+          method="post"
+          id="marksForm">
+
+        <div asp-validation-summary="All"
+             class="validation-summary text-danger mb-3"></div>
+
+        <section class="marks-section mb-4">
+            <h2 class="section-title">Module Details</h2>
+
+            <div class="row g-3">
+                <div class="col-12 col-md-4">
+                    <label asp-for="Module.Code" class="form-label">
+                        Module Code
+                    </label>
+                    <input asp-for="Module.Code"
+                           class="form-control"
+                           placeholder="e.g. CNTW101"
+                           required />
+                </div>
+
+                <div class="col-12 col-md-5">
+                    <label asp-for="Module.Name" class="form-label">
+                        Module Name
+                    </label>
+                    <input asp-for="Module.Name"
+                           class="form-control"
+                           placeholder="Enter module name"
+                           required />
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <label asp-for="Module.Type" class="form-label">
+                        Module Type
+                    </label>
+                    <select asp-for="Module.Type"
+                            class="form-select"
+                            asp-items="Html.GetEnumSelectList<StudentMarksManagementSystem.Models.ModuleType>()"
+                            id="moduleType">
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="marks-section">
+            <div class="section-heading">
+                <div>
+                    <h2 class="section-title mb-1">Assessments</h2>
+                    <p class="section-description">
+                        Enter each assessment's mark and weighting.
+                        All assessment weights must total 100%.
+                    </p>
+                </div>
+            </div>
+
+            <div class="table-responsive assessment-table-wrapper">
+                <table class="table assessment-table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="assessment-name-column">
+                                Assessment Name
+                            </th>
+                            <th scope="col" class="assessment-mark-column">
+                                Mark (%)
+                            </th>
+                            <th scope="col" class="assessment-weight-column">
+                                Weight (%)
+                            </th>
+                            <th scope="col" class="assessment-action-column">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="assessmentsBody">
+                        @for (int i = 0; i < Model.Assessments.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <input name="Assessments[@i].Name"
+                                           value="@Model.Assessments[i].Name"
+                                           class="form-control"
+                                           placeholder="e.g. Test 1"
+                                           aria-label="Assessment @(i + 1) name" />
+                                </td>
+
+                                <td>
+                                    <input name="Assessments[@i].Mark"
+                                           value="@(string.IsNullOrEmpty(Model.Assessments[i].Name) && Model.Assessments[i].Mark == 0 ? "" : Model.Assessments[i].Mark)"
+                                           class="form-control"
+                                           type="number"
+                                           min="0"
+                                           max="100"
+                                           step="0.01"
+                                           aria-label="Assessment @(i + 1) mark" />
+                                </td>
+
+                                <td>
+                                    <input name="Assessments[@i].Weight"
+                                           value="@(string.IsNullOrEmpty(Model.Assessments[i].Name) && Model.Assessments[i].Weight == 0 ? "" : Model.Assessments[i].Weight)"
+                                           class="form-control"
+                                           type="number"
+                                           min="0"
+                                           max="100"
+                                           step="0.01"
+                                           aria-label="Assessment @(i + 1) weight" />
+                                </td>
+
+                                <td class="assessment-action-cell">
+                                    <button type="button"
+                                            class="btn btn-danger remove-assessment">
+                                        Remove
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <button type="button"
+                    id="addAssessmentButton"
+                    class="btn btn-secondary add-assessment-button">
+                <span aria-hidden="true">+</span> Add Assessment
+            </button>
+        </section>
+
+        <section class="marks-section exam-section mt-4"
+                 id="examSection">
+
+            <label asp-for="ExamMark" class="form-label">
+                Exam Mark (%)
+            </label>
+
+            <input asp-for="ExamMark"
+                   class="form-control"
+                   type="number"
+                   min="0"
+                   max="100"
+                   step="0.01"
+                   placeholder="Enter exam mark (optional)" />
+
+            <small class="form-text text-muted">
+                You can leave this blank to calculate your DP first.
+            </small>
+        </section>
+
+        <div class="calculate-actions mt-3">
+            <button type="submit" class="btn btn-primary">
+                Calculate Marks
+            </button>
+        </div>
+    </form>
+
+    @if (Model.Result != null)
+    {
+        <section class="results-section mt-5"
+                 id="calculatedResults">
+
+            <h2 class="section-title">Calculated Results</h2>
+
+            <div class="result-module mb-3">
+                <p>
+                    <strong>Module:</strong>
+                    @Model.Module.Code - @Model.Module.Name
+                </p>
+                <p>
+                    <strong>Module Type:</strong>
+                    @Model.Module.Type
+                </p>
+            </div>
+
+            <div class="result-grid">
+                <div class="result-card">
+                    <span class="result-label">DP</span>
+                    <strong class="result-value">
+                        @Model.Result.DP.ToString("0.##")%
+                    </strong>
+                </div>
+
+                <div class="result-card">
+                    <span class="result-label">Final Mark</span>
+                    <strong class="result-value">
+                        @(Model.Result.FinalMark?.ToString("0.##") ?? "Not available yet")
+                        @if (Model.Result.FinalMark.HasValue)
+                        {
+                            <text>%</text>
+                        }
+                    </strong>
+                </div>
+
+                @if (Model.Module.Type == StudentMarksManagementSystem.Models.ModuleType.Examinable)
+                {
+                    <div class="result-card">
+                        <span class="result-label">Exam Mark</span>
+                        <strong class="result-value">
+                            @(Model.Result.ExamMark?.ToString("0.##") ?? "Not entered")
+                            @if (Model.Result.ExamMark.HasValue)
+                            {
+                                <text>%</text>
+                            }
+                        </strong>
+                    </div>
+                }
+            </div>
+
+            @if (Model.Module.Type == StudentMarksManagementSystem.Models.ModuleType.Examinable)
+            {
+                <div class="qualification-panel mt-3">
+                    @if (Model.Result.Status == "NotQualified")
+                    {
+                        <h3 class="result-subtitle text-danger">
+                            Exam Qualification
+                        </h3>
+                        <p class="mb-0">
+                            You are not qualified to sit the exam because
+                            your DP is below 40%.
+                        </p>
+                    }
+                    else
+                    {
+                        <h3 class="result-subtitle text-success">
+                            Exam Qualification
+                        </h3>
+                        <p>
+                            You qualify to sit the exam.
+                        </p>
+
+                        <h3 class="result-subtitle">Exam Targets</h3>
+
+                        <p>
+                            <strong>Exam mark needed to pass:</strong>
+                            @(Model.Result.ExamMarkNeededForPass?.ToString("0.##") ?? "N/A")%
+                        </p>
+
+                        <p>
+                            <strong>Exam mark needed for distinction:</strong>
+                            @if (Model.Result.ExamMarkNeededForDistinction.HasValue)
+                            {
+                                @Model.Result.ExamMarkNeededForDistinction.Value.ToString("0.##")
+                                <text>%</text>
+                            }
+                            else
+                            {
+                                <text>Not achievable with your current DP</text>
+                            }
+                        </p>
+
+                        <small class="text-muted">
+                            Exam targets are rounded up to the next whole
+                            percentage point to show the minimum whole-number
+                            exam mark needed.
+                        </small>
+                    }
+                </div>
+            }
+
+            <div class="result-status mt-3">
+                <strong>Status:</strong>
+                <span>@Model.Result.Status</span>
+            </div>
+        </section>
+    }
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const body = document.getElementById("assessmentsBody");
+        const addButton = document.getElementById("addAssessmentButton");
+        const moduleType = document.getElementById("moduleType");
+        const examSection = document.getElementById("examSection");
+        const marksForm = document.getElementById("marksForm");
+
+        if (!body || !addButton) {
+            return;
+        }
+
+        function reindexAssessments() {
+            body.querySelectorAll("tr").forEach(function (row, index) {
+                row.querySelectorAll("input").forEach(function (input) {
+                    const field = input.name.split(".").pop();
+                    input.name = `Assessments[${index}].${field}`;
+                });
+            });
+        }
+
+        function addAssessment() {
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>
+                    <input name="Assessments[0].Name"
+                           class="form-control"
+                           placeholder="e.g. Assignment 2"
+                           aria-label="Assessment name" />
+                </td>
+                <td>
+                    <input name="Assessments[0].Mark"
+                           class="form-control"
+                           type="number"
+                           min="0"
+                           max="100"
+                           step="0.01"
+                           aria-label="Assessment mark" />
+                </td>
+                <td>
+                    <input name="Assessments[0].Weight"
+                           class="form-control"
+                           type="number"
+                           min="0"
+                           max="100"
+                           step="0.01"
+                           aria-label="Assessment weight" />
+                </td>
+                <td class="assessment-action-cell">
+                    <button type="button"
+                            class="btn btn-danger remove-assessment">
+                        Remove
+                    </button>
+                </td>
+            `;
+
+            body.appendChild(row);
+            reindexAssessments();
+        }
+
+        addButton.addEventListener("click", addAssessment);
+
+        body.addEventListener("click", function (event) {
+            const target = event.target;
+
+            if (!(target instanceof Element)) {
+                return;
+            }
+
+            const removeButton = target.closest(".remove-assessment");
+
+            if (!removeButton || !body.contains(removeButton)) {
+                return;
+            }
+
+            const rows = body.querySelectorAll("tr");
+
+            if (rows.length <= 1) {
+                alert("At least one assessment is required.");
+                return;
+            }
+
+            removeButton.closest("tr")?.remove();
+            reindexAssessments();
+        });
+
+        function toggleExamField() {
+            if (!moduleType || !examSection) {
+                return;
+            }
+
+            // Preserves the existing enum convention:
+            // value "0" represents an examinable module.
+            const isExaminable = moduleType.value === "0";
+
+            examSection.hidden = !isExaminable;
+        }
+
+        if (moduleType) {
+            moduleType.addEventListener("change", toggleExamField);
+            toggleExamField();
+        }
+
+        if (marksForm) {
+            marksForm.addEventListener("submit", function () {
+                try {
+                    sessionStorage.setItem("scrollToResults", "true");
+                } catch {
+                    // The form can still submit if session storage is unavailable.
+                }
+            });
+        }
+
+        let shouldScrollToResults = false;
+
+        try {
+            shouldScrollToResults =
+                sessionStorage.getItem("scrollToResults") === "true";
+
+            if (shouldScrollToResults) {
+                sessionStorage.removeItem("scrollToResults");
+            }
+        } catch {
+            // Scrolling is optional.
+        }
+
+        if (shouldScrollToResults) {
+            const results = document.getElementById("calculatedResults");
+
+            if (results) {
+                requestAnimationFrame(function () {
+                    results.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                });
+            }
+        }
+    });
+</script>
