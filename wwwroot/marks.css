@@ -10,7 +10,6 @@
     color: #212529;
     font-size: 15px;
 }
-
 /* Page heading */
 
 .marks-header {
@@ -419,17 +418,4 @@
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
     }
-}
-
-/* Add space between the Calculate button and footer */
-.calculate-actions {
-    margin-bottom: 40px;
-    padding-bottom: 10px;
-}
-
-/* Keep the footer separated from the page content */
-footer {
-    margin-top: 30px;
-    padding: 20px 0;
-    position: relative;
 }

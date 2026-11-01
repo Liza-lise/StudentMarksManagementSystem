@@ -13,12 +13,19 @@ html {
 }
 
 html {
-  position: relative;
   min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+  display: flex;
+  min-height: 100vh;
+  margin: 0;
+  flex-direction: column;
+}
+
+.page-content {
+  width: 100%;
+  flex: 1 0 auto;
 }
 
 /* Student Marks Management dashboard */
